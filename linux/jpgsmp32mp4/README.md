@@ -23,4 +23,20 @@ ffmpeg -i source.mp4 -i source.mp3 -codec copy -shortest output.mp4
 
 or FOR THE LONGEST INSTEAD OF CUTTING OFF AT THE END
 
-ffmpeg -i source.mp4 -i source.mp3 -codec copy output.mp4 
+ffmpeg -i source.mp4 -i source.mp3 -codec copy output.mp4
+
+########################################
+Alternative
+
+1) Resize directory full of photos to a width of 600px
+command:
+convert '*.JPG[600x]' resized/resized%03d.jpg
+
+2) Make all of the photos into an MP4
+(1 second per shot: 3 => 3 frames per second: 1/3 => 1 frame every 3 seconds)
+command:
+ffmpeg -framerate 1 -i resized%03d.jpg -c:v libx264 -profile:v high -crf 20 -pix_fmt yuv420p output.mp4
+
+3) Add Music
+command:
+ffmpeg -i output.mp4 -i audio.mp3 -codec copy -shortest final.mp4
